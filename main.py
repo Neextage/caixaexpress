@@ -4,7 +4,7 @@ Projeto : Caixa Express
 Arquivo : main.py
 ---------------------------------------------------------
 """
-
+from ui.app import CaixaExpressApp
 from config.constants import CONFIG_FILE
 from config.constants import LOG_DIR
 
@@ -21,21 +21,13 @@ def main() -> None:
 
     logger.info("Inicializando Caixa Express.")
 
-    config = ConfigManager(CONFIG_FILE)
+    ConfigManager(CONFIG_FILE)
 
-    database = DatabaseManager(logger)
+    DatabaseManager(logger)
 
-    print("=" * 50)
+    app = CaixaExpressApp()
 
-    print(AppInfo.NAME)
-
-    print(f"Versão: {AppInfo.VERSION}")
-
-    print(f"Loja: {config.store_name}")
-
-    print("=" * 50)
-
-    database.close()
+    app.run()
 
     logger.info("Sistema encerrado.")
 

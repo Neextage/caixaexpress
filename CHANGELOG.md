@@ -26,3 +26,10 @@
 - Implementados métodos de consulta de destinatários.
 - Implementados métodos de inclusão, alteração e remoção.
 - Implementado controle de ativação/desativação de destinatários.
+
+## Sprint 03 - Etapa 01
+
+- Criada a janela principal da aplicação.
+- Implementada a estrutura inicial da interface com CustomTkinter.
+- Adicionadas área lateral e área de conteúdo.
+- Centralização automática da janela.
