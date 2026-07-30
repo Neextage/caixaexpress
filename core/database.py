@@ -38,6 +38,7 @@ class DatabaseManager:
         self._logger.info("Banco de dados conectado.")
 
         self.create_tables()
+        self._seed_recipients()
 
     def _create_database_directory(self) -> None:
         """Cria o diretório do banco caso não exista."""
@@ -55,7 +56,6 @@ class DatabaseManager:
         """Executa comandos SQL."""
 
         self.cursor.execute(query, parameters)
-
         self.connection.commit()
 
     def fetch_one(
@@ -66,7 +66,6 @@ class DatabaseManager:
         """Retorna um único registro."""
 
         self.cursor.execute(query, parameters)
-
         return self.cursor.fetchone()
 
     def fetch_all(
@@ -77,7 +76,6 @@ class DatabaseManager:
         """Retorna vários registros."""
 
         self.cursor.execute(query, parameters)
-
         return self.cursor.fetchall()
 
     def create_tables(self) -> None:
@@ -174,6 +172,192 @@ class DatabaseManager:
         self.connection.commit()
 
         self._logger.info("Tabelas criadas com sucesso.")
+
+    # =====================================================
+    # Destinatários
+    # =====================================================
+
+    def _seed_recipients(self) -> None:
+        """
+        Insere os destinatários padrão caso o banco ainda
+        não possua registros.
+        """
+
+        result = self.fetch_one(
+            "SELECT COUNT(*) AS total FROM recipients"
+        )
+
+        if result["total"] > 0:
+            return
+
+        recipients = [
+
+            ("Financeiro", "Cleise", "cleise@admgto.com.br"),
+            ("Financeiro", "Financeiro", "financeiro@admgto.com.br"),
+
+            ("Supervisores", "Viviane", "viviane@admgto.com.br"),
+            ("Supervisores", "Faria", "faria@admgto.com.br"),
+
+            ("Diretoria", "Rene", "rene@admgto.com.br"),
+            ("Diretoria", "Rene Casa", "renecasa@admgto.com.br"),
+
+            ("TI", "Dylan", "dylanryan@admgto.com.br"),
+            ("TI", "Fabiano", "fabianogalasso@admgto.com.br")
+
+        ]
+
+        self.cursor.executemany(
+            """
+            INSERT INTO recipients(
+                group_name,
+                name,
+                email
+            )
+            VALUES (?, ?, ?)
+            """,
+            recipients
+        )
+
+        self.connection.commit()
+
+        self._logger.info(
+            "Destinatários padrão cadastrados."
+        )
+
+    def get_all_recipients(self):
+        """Retorna todos os destinatários."""
+
+        return self.fetch_all(
+            """
+            SELECT *
+            FROM recipients
+            ORDER BY group_name, name
+            """
+        )
+
+    def get_group_recipients(
+        self,
+        group_name: str
+    ):
+        """Retorna os destinatários de um grupo."""
+
+        return self.fetch_all(
+            """
+            SELECT *
+            FROM recipients
+            WHERE group_name = ?
+            ORDER BY name
+            """,
+            (group_name,)
+        )
+
+    def add_recipient(
+        self,
+        group_name: str,
+        name: str,
+        email: str
+    ) -> None:
+        """Adiciona um destinatário."""
+
+        self.execute(
+            """
+            INSERT INTO recipients(
+                group_name,
+                name,
+                email
+            )
+            VALUES (?, ?, ?)
+            """,
+            (
+                group_name,
+                name,
+                email
+            )
+        )
+
+        self._logger.info(
+            f"Destinatário '{name}' cadastrado."
+        )
+
+    def update_recipient(
+        self,
+        recipient_id: int,
+        group_name: str,
+        name: str,
+        email: str,
+        active: bool
+    ) -> None:
+        """Atualiza um destinatário."""
+
+        self.execute(
+            """
+            UPDATE recipients
+            SET
+                group_name = ?,
+                name = ?,
+                email = ?,
+                active = ?
+            WHERE id = ?
+            """,
+            (
+                group_name,
+                name,
+                email,
+                int(active),
+                recipient_id
+            )
+        )
+
+        self._logger.info(
+            f"Destinatário '{name}' atualizado."
+        )
+
+    def delete_recipient(
+        self,
+        recipient_id: int
+    ) -> None:
+        """Remove um destinatário."""
+
+        self.execute(
+            """
+            DELETE FROM recipients
+            WHERE id = ?
+            """,
+            (recipient_id,)
+        )
+
+        self._logger.info(
+            f"Destinatário ID {recipient_id} removido."
+        )
+
+    def set_recipient_active(
+        self,
+        recipient_id: int,
+        active: bool
+    ) -> None:
+        """Ativa ou desativa um destinatário."""
+
+        self.execute(
+            """
+            UPDATE recipients
+            SET active = ?
+            WHERE id = ?
+            """,
+            (
+                int(active),
+                recipient_id
+            )
+        )
+
+        status = "ativado" if active else "desativado"
+
+        self._logger.info(
+            f"Destinatário ID {recipient_id} {status}."
+        )
+
+    # =====================================================
+    # Encerramento
+    # =====================================================
 
     def close(self) -> None:
         """Encerra a conexão."""

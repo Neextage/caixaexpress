@@ -12,3 +12,17 @@
 - Criação do Version Manager
 - Criação das constantes globais
 - Atualização do main.py
+
+## Sprint 02 - Etapa 01
+
+- Implementado DatabaseManager.
+- Criação automática do banco SQLite.
+- Criação automática das tabelas.
+- Integração com LoggerManager.
+
+## Sprint 02 - Etapa 02
+
+- Inserção automática dos destinatários padrão.
+- Implementados métodos de consulta de destinatários.
+- Implementados métodos de inclusão, alteração e remoção.
+- Implementado controle de ativação/desativação de destinatários.
