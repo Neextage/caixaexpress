@@ -1,0 +1,29 @@
+# Ambiente Virtual
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Banco
+*.db
+
+# Logs
+logs/
+*.log
+
+# VS Code
+.vscode/
+
+# Build
+dist/
+build/
+
+# PyInstaller
+*.spec
+
+# Sistema
+Thumbs.db
+Desktop.ini
