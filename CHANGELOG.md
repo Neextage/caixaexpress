@@ -105,3 +105,33 @@
 - Implementada limitação de 500 registros exibidos.
 - Implementada ordenação dos registros mais recentes primeiro.
 - Validada leitura dos logs reais da aplicação.
+
+## Sprint 04 - Etapa 05
+
+- Implementado SMTPManager.
+- Implementado teste de conexão e autenticação SMTP.
+- Implementado envio controlado de e-mail de teste.
+- Implementada interface administrativa para testes SMTP.
+- Implementada visualização das configurações SMTP utilizadas.
+- Implementada execução dos testes em thread para evitar travamento da interface.
+- Implementado tratamento amigável de erros SMTP, SSL/TLS, timeout e conexão.
+- Integrado o resultado dos testes ao LoggerManager.
+- Validada conexão SMTP utilizando STARTTLS.
+- Validado envio real de e-mail de teste.
+- Validado recebimento do e-mail de teste.
+- Removido config/config.ini do versionamento Git.
+- Adicionado config/config.ini ao .gitignore.
+- Removido config/config.ini de todo o histórico Git.
+- Reescrito e atualizado o histórico remoto do repositório sem o arquivo de configuração sensível.
+
+## Sprint 04 - Conclusão
+
+- Implementado gerenciamento administrativo de destinatários.
+- Implementada tela completa de configurações.
+- Implementado histórico persistente de envios.
+- Implementada visualização e filtragem dos logs da aplicação.
+- Implementada ferramenta administrativa de diagnóstico SMTP.
+- Validada comunicação real com o servidor SMTP.
+- Validado envio e recebimento de e-mails de teste.
+- Reforçada a proteção das configurações e credenciais locais.
+- Sprint 04 concluída e validada.
