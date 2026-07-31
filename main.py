@@ -36,7 +36,8 @@ def main() -> None:
 
     try:
         app = CaixaExpressApp(
-            config_manager
+            config_manager=config_manager,
+            database=database,
         )
 
         app.run()

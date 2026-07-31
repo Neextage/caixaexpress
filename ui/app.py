@@ -18,6 +18,7 @@ import customtkinter as ctk
 from config.theme import ThemeColors
 from config.version import AppInfo
 from core.config_manager import ConfigManager
+from core.database import DatabaseManager
 from ui.components.sidebar import Sidebar
 from ui.login_dialog import LoginDialog
 from ui.pages.history_page import HistoryPage
@@ -45,6 +46,7 @@ class CaixaExpressApp(ctk.CTk):
     def __init__(
         self,
         config_manager: ConfigManager,
+        database: DatabaseManager,
     ) -> None:
         ctk.set_appearance_mode("light")
         ctk.set_default_color_theme("blue")
@@ -52,6 +54,7 @@ class CaixaExpressApp(ctk.CTk):
         super().__init__()
 
         self._config_manager = config_manager
+        self._database = database
 
         self._pages: dict[
             str,
@@ -59,7 +62,6 @@ class CaixaExpressApp(ctk.CTk):
         ] = {}
 
         self._current_page: str | None = None
-
         self._admin_authenticated = False
 
         self._login_dialog: (
@@ -179,18 +181,24 @@ class CaixaExpressApp(ctk.CTk):
                 self.content,
                 self._config_manager,
             ),
+
             "recipients": RecipientsPage(
-                self.content
+                self.content,
+                self._database,
             ),
+
             "settings": SettingsPage(
                 self.content
             ),
+
             "history": HistoryPage(
                 self.content
             ),
+
             "logs": LogsPage(
                 self.content
             ),
+
             "tests": TestsPage(
                 self.content
             ),
@@ -275,6 +283,12 @@ class CaixaExpressApp(ctk.CTk):
 
         if page is None:
             return
+
+        if hasattr(
+            page,
+            "refresh",
+        ):
+            page.refresh()
 
         page.tkraise()
 

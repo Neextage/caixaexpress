@@ -60,3 +60,13 @@
 - Protegidas as páginas Destinatários, Configuração, Histórico, Logs e Testes.
 - Mantida a tela Caixa com acesso público.
 - Implementada sessão administrativa válida até o encerramento da aplicação.
+
+## Sprint 04 - Etapa 01
+
+- Integrado DatabaseManager à interface gráfica.
+- Implementada listagem real dos destinatários cadastrados.
+- Implementada organização visual por grupos.
+- Implementados indicadores de destinatários ativos e inativos.
+- Implementado controle de ativação e desativação.
+- Implementada persistência do status no SQLite.
+- Implementada atualização automática da página.
