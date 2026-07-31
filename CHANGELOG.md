@@ -93,3 +93,15 @@
 - Implementada formatação monetária brasileira no histórico.
 - Implementada atualização manual e automática da listagem.
 - Validada persistência dos registros de histórico.
+
+## Sprint 04 - Etapa 04
+
+- Implementada tela administrativa de Logs.
+- Integrado LoggerManager à interface gráfica.
+- Implementada leitura do arquivo caixaexpress.log.
+- Implementados indicadores de informações, avisos e erros.
+- Implementados filtros por nível de log.
+- Implementada atualização da visualização.
+- Implementada limitação de 500 registros exibidos.
+- Implementada ordenação dos registros mais recentes primeiro.
+- Validada leitura dos logs reais da aplicação.

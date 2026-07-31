@@ -20,7 +20,9 @@ from ui.app import CaixaExpressApp
 def main() -> None:
     """Inicializa os componentes principais da aplicação."""
 
-    logger = LoggerManager(LOG_DIR)
+    logger = LoggerManager(
+        LOG_DIR
+    )
 
     logger.info(
         "Inicializando Caixa Express."
@@ -35,14 +37,17 @@ def main() -> None:
     )
 
     try:
+
         app = CaixaExpressApp(
             config_manager=config_manager,
             database=database,
+            logger=logger,
         )
 
         app.run()
 
     finally:
+
         database.close()
 
         logger.info(

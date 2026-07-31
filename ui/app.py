@@ -19,6 +19,7 @@ from config.theme import ThemeColors
 from config.version import AppInfo
 from core.config_manager import ConfigManager
 from core.database import DatabaseManager
+from core.logger_manager import LoggerManager
 from ui.components.sidebar import Sidebar
 from ui.login_dialog import LoginDialog
 from ui.pages.history_page import HistoryPage
@@ -47,21 +48,35 @@ class CaixaExpressApp(ctk.CTk):
         self,
         config_manager: ConfigManager,
         database: DatabaseManager,
+        logger: LoggerManager,
     ) -> None:
-        ctk.set_appearance_mode("light")
-        ctk.set_default_color_theme("blue")
+
+        ctk.set_appearance_mode(
+            "light"
+        )
+
+        ctk.set_default_color_theme(
+            "blue"
+        )
 
         super().__init__()
 
-        self._config_manager = config_manager
+        self._config_manager = (
+            config_manager
+        )
+
         self._database = database
+        self._logger = logger
 
         self._pages: dict[
             str,
             ctk.CTkFrame,
         ] = {}
 
-        self._current_page: str | None = None
+        self._current_page: (
+            str | None
+        ) = None
+
         self._admin_authenticated = False
 
         self._login_dialog: (
@@ -72,13 +87,16 @@ class CaixaExpressApp(ctk.CTk):
         self._create_layout()
         self._create_pages()
 
-        self._open_page("home")
+        self._open_page(
+            "home"
+        )
 
     def _configure_window(self) -> None:
         """Configura a janela principal."""
 
         self.title(
-            f"{AppInfo.NAME} - v{AppInfo.VERSION}"
+            f"{AppInfo.NAME} - "
+            f"v{AppInfo.VERSION}"
         )
 
         self.geometry(
@@ -106,11 +124,13 @@ class CaixaExpressApp(ctk.CTk):
         )
 
         x = (
-            screen_width - self.WIDTH
+            screen_width
+            - self.WIDTH
         ) // 2
 
         y = (
-            screen_height - self.HEIGHT
+            screen_height
+            - self.HEIGHT
         ) // 2
 
         self.geometry(
@@ -177,6 +197,7 @@ class CaixaExpressApp(ctk.CTk):
         """Cria as páginas."""
 
         self._pages = {
+
             "home": HomePage(
                 self.content,
                 self._config_manager,
@@ -188,17 +209,18 @@ class CaixaExpressApp(ctk.CTk):
             ),
 
             "settings": SettingsPage(
-             self.content,
-             self._config_manager,
-             ),
+                self.content,
+                self._config_manager,
+            ),
 
             "history": HistoryPage(
-             self.content,
-             self._database,
-             ),
+                self.content,
+                self._database,
+            ),
 
             "logs": LogsPage(
-                self.content
+                self.content,
+                self._logger,
             ),
 
             "tests": TestsPage(
@@ -207,6 +229,7 @@ class CaixaExpressApp(ctk.CTk):
         }
 
         for page in self._pages.values():
+
             page.grid(
                 row=0,
                 column=0,
@@ -223,8 +246,10 @@ class CaixaExpressApp(ctk.CTk):
             page_name in self.ADMIN_PAGES
             and not self._admin_authenticated
         ):
+
             self.sidebar.set_active(
-                self._current_page or "home"
+                self._current_page
+                or "home"
             )
 
             self._request_admin_access(
@@ -245,9 +270,12 @@ class CaixaExpressApp(ctk.CTk):
 
         if (
             self._login_dialog is not None
-            and self._login_dialog.winfo_exists()
+            and
+            self._login_dialog.winfo_exists()
         ):
+
             self._login_dialog.focus_force()
+
             return
 
         self._login_dialog = LoginDialog(
@@ -267,6 +295,7 @@ class CaixaExpressApp(ctk.CTk):
         """Libera a sessão administrativa."""
 
         self._admin_authenticated = True
+
         self._login_dialog = None
 
         self._open_page(
