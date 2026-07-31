@@ -169,6 +169,11 @@ class HomePage(ctk.CTkFrame):
             padx=45,
             pady=20,
         )
+    def refresh(self) -> None:
+        """Atualiza as informações exibidas na página."""
+
+        self._config_manager.reload()
+        self._load_store()
 
     def _load_store(self) -> None:
         """Carrega o nome da loja configurada."""

@@ -188,8 +188,9 @@ class CaixaExpressApp(ctk.CTk):
             ),
 
             "settings": SettingsPage(
-                self.content
-            ),
+             self.content,
+             self._config_manager,
+             ),
 
             "history": HistoryPage(
                 self.content

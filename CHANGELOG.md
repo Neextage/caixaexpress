@@ -70,3 +70,15 @@
 - Implementado controle de ativação e desativação.
 - Implementada persistência do status no SQLite.
 - Implementada atualização automática da página.
+
+## Sprint 04 - Etapa 02
+
+- Implementada tela administrativa de configurações.
+- Implementada edição do nome da loja pela interface.
+- Implementada configuração do servidor SMTP.
+- Implementada configuração de porta, remetente e senha SMTP.
+- Implementadas opções TLS e SSL.
+- Implementada configuração de timeout.
+- Implementadas validações dos campos de configuração.
+- Implementada gravação das configurações no config.ini.
+- Implementada atualização automática do nome da loja na tela Caixa.
