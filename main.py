@@ -14,6 +14,7 @@ from config.constants import CONFIG_FILE, LOG_DIR
 from core.config_manager import ConfigManager
 from core.database import DatabaseManager
 from core.logger_manager import LoggerManager
+from core.smtp_manager import SMTPManager
 from ui.app import CaixaExpressApp
 
 
@@ -36,12 +37,18 @@ def main() -> None:
         logger
     )
 
+    smtp_manager = SMTPManager(
+        config_manager=config_manager,
+        logger=logger,
+    )
+
     try:
 
         app = CaixaExpressApp(
             config_manager=config_manager,
             database=database,
             logger=logger,
+            smtp_manager=smtp_manager,
         )
 
         app.run()

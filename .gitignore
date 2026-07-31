@@ -27,3 +27,8 @@ build/
 # Sistema
 Thumbs.db
 Desktop.ini
+# ---------------------------------------------------------
+# Caixa Express - Configurações locais e credenciais
+# ---------------------------------------------------------
+
+config/config.ini

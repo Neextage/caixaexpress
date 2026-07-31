@@ -20,6 +20,7 @@ from config.version import AppInfo
 from core.config_manager import ConfigManager
 from core.database import DatabaseManager
 from core.logger_manager import LoggerManager
+from core.smtp_manager import SMTPManager
 from ui.components.sidebar import Sidebar
 from ui.login_dialog import LoginDialog
 from ui.pages.history_page import HistoryPage
@@ -49,6 +50,7 @@ class CaixaExpressApp(ctk.CTk):
         config_manager: ConfigManager,
         database: DatabaseManager,
         logger: LoggerManager,
+        smtp_manager: SMTPManager,
     ) -> None:
 
         ctk.set_appearance_mode(
@@ -61,12 +63,10 @@ class CaixaExpressApp(ctk.CTk):
 
         super().__init__()
 
-        self._config_manager = (
-            config_manager
-        )
-
+        self._config_manager = config_manager
         self._database = database
         self._logger = logger
+        self._smtp_manager = smtp_manager
 
         self._pages: dict[
             str,
@@ -224,7 +224,9 @@ class CaixaExpressApp(ctk.CTk):
             ),
 
             "tests": TestsPage(
-                self.content
+                self.content,
+                self._config_manager,
+                self._smtp_manager,
             ),
         }
 
@@ -295,7 +297,6 @@ class CaixaExpressApp(ctk.CTk):
         """Libera a sessão administrativa."""
 
         self._admin_authenticated = True
-
         self._login_dialog = None
 
         self._open_page(
