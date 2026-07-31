@@ -193,8 +193,9 @@ class CaixaExpressApp(ctk.CTk):
              ),
 
             "history": HistoryPage(
-                self.content
-            ),
+             self.content,
+             self._database,
+             ),
 
             "logs": LogsPage(
                 self.content

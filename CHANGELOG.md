@@ -82,3 +82,14 @@
 - Implementadas validações dos campos de configuração.
 - Implementada gravação das configurações no config.ini.
 - Implementada atualização automática do nome da loja na tela Caixa.
+
+## Sprint 04 - Etapa 03
+
+- Implementada camada de histórico no DatabaseManager.
+- Implementado registro de tentativas de envio no SQLite.
+- Implementada tela administrativa de Histórico.
+- Implementados indicadores de total, sucessos e erros.
+- Implementada listagem dos registros de envio.
+- Implementada formatação monetária brasileira no histórico.
+- Implementada atualização manual e automática da listagem.
+- Validada persistência dos registros de histórico.
