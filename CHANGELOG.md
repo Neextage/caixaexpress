@@ -33,3 +33,12 @@
 - Implementada a estrutura inicial da interface com CustomTkinter.
 - Adicionadas área lateral e área de conteúdo.
 - Centralização automática da janela.
+
+## Sprint 03 - Etapa 02
+
+- Implementada navegação principal da aplicação.
+- Criada sidebar do Caixa Express.
+- Criada tela pública de fechamento de caixa.
+- Criadas estruturas iniciais das páginas administrativas.
+- Implementado destaque visual da página selecionada.
+- Separados componentes e páginas da interface.
