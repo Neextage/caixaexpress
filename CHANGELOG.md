@@ -172,3 +172,17 @@
 - Mantida proteção contra múltiplos envios simultâneos.
 - Adicionada mensagem "Bom descanso!" após o envio realizado com sucesso.
 - Validado fluxo de confirmação, cancelamento e envio real.
+
+## Sprint 05 - Etapa 05
+
+- Validado tratamento para ausência de destinatários ativos.
+- Validado tratamento de indisponibilidade do servidor SMTP.
+- Validado tratamento de falha de resolução do servidor SMTP.
+- Validado tratamento de erro de autenticação SMTP.
+- Validada exibição de mensagens amigáveis ao usuário.
+- Validada orientação para contato com Dylan ou Fabiano em caso de falha.
+- Validada preservação do valor do caixa quando o envio falha.
+- Validado retorno do botão de envio ao estado normal após falhas.
+- Validado registro das tentativas com erro no histórico.
+- Validado registro dos detalhes técnicos das falhas nos logs.
+- Validada recuperação do sistema após restauração das configurações SMTP.
