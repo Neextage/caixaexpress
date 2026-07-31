@@ -16,6 +16,7 @@ import customtkinter as ctk
 
 from config.theme import ThemeColors
 from config.version import AppInfo
+from core.config_manager import ConfigManager
 from ui.components.sidebar import Sidebar
 from ui.pages.history_page import HistoryPage
 from ui.pages.home_page import HomePage
@@ -31,11 +32,16 @@ class CaixaExpressApp(ctk.CTk):
     WIDTH = 1200
     HEIGHT = 700
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        config_manager: ConfigManager,
+    ) -> None:
         ctk.set_appearance_mode("light")
         ctk.set_default_color_theme("blue")
 
         super().__init__()
+
+        self._config_manager = config_manager
 
         self._pages: dict[str, ctk.CTkFrame] = {}
         self._current_page: str | None = None
@@ -135,15 +141,28 @@ class CaixaExpressApp(ctk.CTk):
         )
 
     def _create_pages(self) -> None:
-        """Inicializa as páginas."""
+        """Inicializa todas as páginas."""
 
         self._pages = {
-            "home": HomePage(self.content),
-            "recipients": RecipientsPage(self.content),
-            "settings": SettingsPage(self.content),
-            "history": HistoryPage(self.content),
-            "logs": LogsPage(self.content),
-            "tests": TestsPage(self.content),
+            "home": HomePage(
+                self.content,
+                self._config_manager,
+            ),
+            "recipients": RecipientsPage(
+                self.content
+            ),
+            "settings": SettingsPage(
+                self.content
+            ),
+            "history": HistoryPage(
+                self.content
+            ),
+            "logs": LogsPage(
+                self.content
+            ),
+            "tests": TestsPage(
+                self.content
+            ),
         }
 
         for page in self._pages.values():
@@ -168,8 +187,9 @@ class CaixaExpressApp(ctk.CTk):
 
         self._current_page = page_name
 
-        if hasattr(self, "sidebar"):
-            self.sidebar.set_active(page_name)
+        self.sidebar.set_active(
+            page_name
+        )
 
     def run(self) -> None:
         """Inicia o loop gráfico."""

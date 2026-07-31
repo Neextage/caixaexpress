@@ -42,3 +42,12 @@
 - Criadas estruturas iniciais das páginas administrativas.
 - Implementado destaque visual da página selecionada.
 - Separados componentes e páginas da interface.
+
+## Sprint 03 - Etapa 03
+
+- Integrado ConfigManager à interface gráfica.
+- Implementado carregamento automático do nome da loja.
+- Bloqueada alteração do nome da loja pela tela pública.
+- Implementado campo monetário com formatação brasileira.
+- Implementada validação do valor do fechamento.
+- Implementado bloqueio do envio quando a loja não estiver configurada.
