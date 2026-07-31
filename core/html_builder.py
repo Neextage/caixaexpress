@@ -78,6 +78,26 @@ class HTMLBuilder:
     font-family: Arial, Helvetica, sans-serif;
 ">
 
+    <!--
+        Preheader utilizado pelos clientes de e-mail
+        para gerar a pré-visualização da mensagem.
+    -->
+    <div
+        style="
+            display: none;
+            font-size: 1px;
+            color: #f4f4f4;
+            line-height: 1px;
+            max-height: 0;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            mso-hide: all;
+        "
+    >
+        Valor Total do Caixa: {formatted_value} | Loja: {safe_store_name}
+    </div>
+
     <table
         width="100%"
         cellpadding="0"

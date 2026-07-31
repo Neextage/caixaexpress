@@ -19,6 +19,7 @@ from config.theme import ThemeColors
 from config.version import AppInfo
 from core.config_manager import ConfigManager
 from core.database import DatabaseManager
+from core.email_sender import EmailSender
 from core.logger_manager import LoggerManager
 from core.smtp_manager import SMTPManager
 from ui.components.sidebar import Sidebar
@@ -67,6 +68,11 @@ class CaixaExpressApp(ctk.CTk):
         self._database = database
         self._logger = logger
         self._smtp_manager = smtp_manager
+        self._email_sender = EmailSender(
+         config_manager=self._config_manager,
+         smtp_manager=self._smtp_manager,
+         logger=self._logger,
+         )
 
         self._pages: dict[
             str,
@@ -201,6 +207,8 @@ class CaixaExpressApp(ctk.CTk):
             "home": HomePage(
                 self.content,
                 self._config_manager,
+                self._database,
+                self._email_sender,
             ),
 
             "recipients": RecipientsPage(
