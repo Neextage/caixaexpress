@@ -146,3 +146,18 @@
 - Implementada proteção do nome da loja contra interpretação de HTML.
 - Validada geração do conteúdo HTML pelo terminal.
 - Validado visualmente o modelo do relatório no navegador.
+
+## Sprint 05 - Etapa 02
+
+- Implementado EmailSender.
+- Integrado EmailSender ao HTMLBuilder.
+- Implementado método genérico de envio no SMTPManager.
+- Implementada geração de mensagens multipart em texto e HTML.
+- Implementado assunto automático com o nome da loja.
+- Implementado remetente identificado como Caixa Express.
+- Implementado suporte ao envio para múltiplos destinatários.
+- Implementadas validações de loja, valor e destinatários.
+- Integrado tratamento de erros do SMTPManager.
+- Integrado registro de operações no LoggerManager.
+- Validado envio real de relatório pelo servidor SMTP.
+- Validada renderização do relatório HTML no Outlook.

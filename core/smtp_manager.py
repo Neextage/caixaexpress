@@ -284,6 +284,75 @@ class SMTPManager:
                 except Exception:
                     pass
 
+    def send_message(
+        self,
+        message: EmailMessage,
+    ) -> tuple[bool, str]:
+        """Envia uma mensagem de e-mail já preparada."""
+
+        smtp = None
+
+        try:
+
+            self._reload_configuration()
+            self._validate_configuration()
+
+            recipients = message.get_all(
+                "To",
+                [],
+            )
+
+            if not recipients:
+                return (
+                    False,
+                    "Nenhum destinatário foi informado.",
+                )
+
+            self._logger.info(
+                "Iniciando envio de mensagem SMTP."
+            )
+
+            smtp = self._connect()
+
+            smtp.send_message(
+                message
+            )
+
+            self._logger.info(
+                "Mensagem SMTP enviada com sucesso."
+            )
+
+            return (
+                True,
+                "Mensagem enviada com sucesso.",
+            )
+
+        except Exception as error:
+
+            technical_message = (
+                f"{type(error).__name__}: {error}"
+            )
+
+            self._logger.error(
+                "Falha no envio da mensagem SMTP - "
+                f"{technical_message}"
+            )
+
+            return (
+                False,
+                self._friendly_error(error),
+            )
+
+        finally:
+
+            if smtp is not None:
+
+                try:
+                    smtp.quit()
+
+                except Exception:
+                    pass
+
     @staticmethod
     def _is_valid_email(
         email: str,
