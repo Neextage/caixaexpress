@@ -51,3 +51,12 @@
 - Implementado campo monetário com formatação brasileira.
 - Implementada validação do valor do fechamento.
 - Implementado bloqueio do envio quando a loja não estiver configurada.
+
+## Sprint 03 - Etapa 04
+
+- Implementado AuthManager.
+- Implementado hash PBKDF2-HMAC-SHA256 para senha administrativa.
+- Criada janela de autenticação administrativa.
+- Protegidas as páginas Destinatários, Configuração, Histórico, Logs e Testes.
+- Mantida a tela Caixa com acesso público.
+- Implementada sessão administrativa válida até o encerramento da aplicação.

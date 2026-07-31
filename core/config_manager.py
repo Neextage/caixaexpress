@@ -21,19 +21,25 @@ from typing import Any
 class ConfigManager:
     """Gerencia o arquivo config.ini da aplicação."""
 
-    def __init__(self, config_file: Path) -> None:
-        self.config_file = Path(config_file)
+    def __init__(
+        self,
+        config_file: Path,
+    ) -> None:
+        self.config_file = Path(
+            config_file
+        )
+
         self.config = ConfigParser()
 
         self.load()
 
     def load(self) -> None:
-        """Carrega as configurações do arquivo."""
+        """Carrega as configurações."""
 
         if not self.config_file.exists():
             raise FileNotFoundError(
-                f"Arquivo de configuração não encontrado: "
-                f"{self.config_file}"
+                "Arquivo de configuração "
+                f"não encontrado: {self.config_file}"
             )
 
         self.config.read(
@@ -48,7 +54,7 @@ class ConfigManager:
         self.load()
 
     def save(self) -> None:
-        """Salva as configurações no arquivo."""
+        """Salva as configurações."""
 
         self.config_file.parent.mkdir(
             parents=True,
@@ -111,8 +117,12 @@ class ConfigManager:
     ) -> None:
         """Altera uma configuração."""
 
-        if not self.config.has_section(section):
-            self.config.add_section(section)
+        if not self.config.has_section(
+            section
+        ):
+            self.config.add_section(
+                section
+            )
 
         self.config.set(
             section,
@@ -122,7 +132,7 @@ class ConfigManager:
 
     @property
     def store_name(self) -> str:
-        """Retorna o nome configurado da loja."""
+        """Retorna o nome da loja."""
 
         return self.get(
             "LOJA",
@@ -152,7 +162,7 @@ class ConfigManager:
 
     @property
     def sender_email(self) -> str:
-        """Retorna o endereço remetente."""
+        """Retorna o e-mail remetente."""
 
         return self.get(
             "EMAIL",
@@ -172,7 +182,7 @@ class ConfigManager:
 
     @property
     def use_tls(self) -> bool:
-        """Informa se TLS está habilitado."""
+        """Retorna configuração TLS."""
 
         return self.get_bool(
             "EMAIL",
@@ -182,7 +192,7 @@ class ConfigManager:
 
     @property
     def use_ssl(self) -> bool:
-        """Informa se SSL está habilitado."""
+        """Retorna configuração SSL."""
 
         return self.get_bool(
             "EMAIL",
@@ -199,3 +209,27 @@ class ConfigManager:
             "TIMEOUT",
             30,
         )
+
+    @property
+    def admin_password_hash(self) -> str:
+        """Retorna o hash da senha administrativa."""
+
+        return self.get(
+            "SEGURANCA",
+            "SENHA_ADMIN_HASH",
+            "",
+        ).strip()
+
+    def set_admin_password_hash(
+        self,
+        password_hash: str,
+    ) -> None:
+        """Define e salva o hash administrativo."""
+
+        self.set(
+            "SEGURANCA",
+            "SENHA_ADMIN_HASH",
+            password_hash,
+        )
+
+        self.save()

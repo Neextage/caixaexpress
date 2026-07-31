@@ -6,7 +6,8 @@ Autor   : Dylan Ryan Pereira Santos
 Versão  : 0.1.0
 ---------------------------------------------------------
 Descrição:
-Janela principal e controlador de navegação da aplicação.
+Janela principal, navegação e controle de acesso
+administrativo do Caixa Express.
 ---------------------------------------------------------
 """
 
@@ -18,6 +19,7 @@ from config.theme import ThemeColors
 from config.version import AppInfo
 from core.config_manager import ConfigManager
 from ui.components.sidebar import Sidebar
+from ui.login_dialog import LoginDialog
 from ui.pages.history_page import HistoryPage
 from ui.pages.home_page import HomePage
 from ui.pages.logs_page import LogsPage
@@ -32,6 +34,14 @@ class CaixaExpressApp(ctk.CTk):
     WIDTH = 1200
     HEIGHT = 700
 
+    ADMIN_PAGES = {
+        "recipients",
+        "settings",
+        "history",
+        "logs",
+        "tests",
+    }
+
     def __init__(
         self,
         config_manager: ConfigManager,
@@ -43,14 +53,24 @@ class CaixaExpressApp(ctk.CTk):
 
         self._config_manager = config_manager
 
-        self._pages: dict[str, ctk.CTkFrame] = {}
+        self._pages: dict[
+            str,
+            ctk.CTkFrame,
+        ] = {}
+
         self._current_page: str | None = None
+
+        self._admin_authenticated = False
+
+        self._login_dialog: (
+            LoginDialog | None
+        ) = None
 
         self._configure_window()
         self._create_layout()
         self._create_pages()
 
-        self.show_page("home")
+        self._open_page("home")
 
     def _configure_window(self) -> None:
         """Configura a janela principal."""
@@ -71,22 +91,33 @@ class CaixaExpressApp(ctk.CTk):
         self._center_window()
 
     def _center_window(self) -> None:
-        """Centraliza a janela no monitor."""
+        """Centraliza a janela."""
 
         self.update_idletasks()
 
-        screen_width = self.winfo_screenwidth()
-        screen_height = self.winfo_screenheight()
+        screen_width = (
+            self.winfo_screenwidth()
+        )
 
-        x = (screen_width - self.WIDTH) // 2
-        y = (screen_height - self.HEIGHT) // 2
+        screen_height = (
+            self.winfo_screenheight()
+        )
+
+        x = (
+            screen_width - self.WIDTH
+        ) // 2
+
+        y = (
+            screen_height - self.HEIGHT
+        ) // 2
 
         self.geometry(
-            f"{self.WIDTH}x{self.HEIGHT}+{x}+{y}"
+            f"{self.WIDTH}x{self.HEIGHT}"
+            f"+{x}+{y}"
         )
 
     def _create_layout(self) -> None:
-        """Cria a estrutura principal."""
+        """Cria o layout principal."""
 
         self.configure(
             fg_color=ThemeColors.BACKGROUND
@@ -141,7 +172,7 @@ class CaixaExpressApp(ctk.CTk):
         )
 
     def _create_pages(self) -> None:
-        """Inicializa todas as páginas."""
+        """Cria as páginas."""
 
         self._pages = {
             "home": HomePage(
@@ -176,9 +207,71 @@ class CaixaExpressApp(ctk.CTk):
         self,
         page_name: str,
     ) -> None:
-        """Exibe a página solicitada."""
+        """Solicita navegação para uma página."""
 
-        page = self._pages.get(page_name)
+        if (
+            page_name in self.ADMIN_PAGES
+            and not self._admin_authenticated
+        ):
+            self.sidebar.set_active(
+                self._current_page or "home"
+            )
+
+            self._request_admin_access(
+                page_name
+            )
+
+            return
+
+        self._open_page(
+            page_name
+        )
+
+    def _request_admin_access(
+        self,
+        page_name: str,
+    ) -> None:
+        """Solicita autenticação administrativa."""
+
+        if (
+            self._login_dialog is not None
+            and self._login_dialog.winfo_exists()
+        ):
+            self._login_dialog.focus_force()
+            return
+
+        self._login_dialog = LoginDialog(
+            self,
+            self._config_manager,
+            on_success=lambda: (
+                self._admin_login_success(
+                    page_name
+                )
+            ),
+        )
+
+    def _admin_login_success(
+        self,
+        page_name: str,
+    ) -> None:
+        """Libera a sessão administrativa."""
+
+        self._admin_authenticated = True
+        self._login_dialog = None
+
+        self._open_page(
+            page_name
+        )
+
+    def _open_page(
+        self,
+        page_name: str,
+    ) -> None:
+        """Abre efetivamente uma página."""
+
+        page = self._pages.get(
+            page_name
+        )
 
         if page is None:
             return
@@ -192,6 +285,6 @@ class CaixaExpressApp(ctk.CTk):
         )
 
     def run(self) -> None:
-        """Inicia o loop gráfico."""
+        """Inicia a aplicação."""
 
         self.mainloop()
