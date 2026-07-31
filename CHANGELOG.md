@@ -135,3 +135,14 @@
 - Validado envio e recebimento de e-mails de teste.
 - Reforçada a proteção das configurações e credenciais locais.
 - Sprint 04 concluída e validada.
+
+## Sprint 05 - Etapa 01
+
+- Implementado HTMLBuilder.
+- Implementada geração do relatório de fechamento em HTML.
+- Implementada exibição do nome da loja no relatório.
+- Implementada formatação monetária no padrão brasileiro.
+- Implementadas data e hora automáticas do fechamento.
+- Implementada proteção do nome da loja contra interpretação de HTML.
+- Validada geração do conteúdo HTML pelo terminal.
+- Validado visualmente o modelo do relatório no navegador.
