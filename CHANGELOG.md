@@ -161,3 +161,14 @@
 - Integrado registro de operações no LoggerManager.
 - Validado envio real de relatório pelo servidor SMTP.
 - Validada renderização do relatório HTML no Outlook.
+
+## Sprint 05 - Etapa 04
+
+- Implementada confirmação antes do envio do fechamento de caixa.
+- Exibidos loja, valor e quantidade de destinatários na confirmação.
+- Implementado cancelamento seguro do envio.
+- Mantido o valor informado quando o envio é cancelado.
+- Impedido o registro no histórico quando o envio é cancelado.
+- Mantida proteção contra múltiplos envios simultâneos.
+- Adicionada mensagem "Bom descanso!" após o envio realizado com sucesso.
+- Validado fluxo de confirmação, cancelamento e envio real.

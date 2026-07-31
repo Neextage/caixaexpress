@@ -368,7 +368,7 @@ class HomePage(ctk.CTkFrame):
         )
 
     def _send_report(self) -> None:
-        """Executa o envio real do fechamento."""
+        """Valida, confirma e executa o envio do fechamento."""
 
         if self._sending:
             return
@@ -418,6 +418,33 @@ class HomePage(ctk.CTkFrame):
             self._show_error(
                 "Nenhum destinatário ativo "
                 "foi encontrado."
+            )
+
+            return
+
+        formatted_value = (
+            self._format_currency(
+                self.get_cash_value_cents()
+            )
+        )
+
+        confirmed = messagebox.askyesno(
+            "Caixa Express - Confirmar envio",
+            (
+                "Confirmar fechamento de caixa?\n\n"
+                f"Loja: {store_name.upper()}\n"
+                f"Valor: {formatted_value}\n"
+                f"Destinatários: {len(recipients)}\n\n"
+                "Deseja realmente enviar?"
+            ),
+            parent=self,
+        )
+
+        if not confirmed:
+
+            self.status_label.configure(
+                text="Envio cancelado.",
+                text_color=ThemeColors.TEXT_LIGHT,
             )
 
             return
@@ -489,7 +516,8 @@ class HomePage(ctk.CTkFrame):
 
             self.status_label.configure(
                 text=(
-                    "Caixa enviado com sucesso."
+                    "Caixa enviado com sucesso. "
+                    "Bom descanso!"
                 ),
                 text_color=ThemeColors.SUCCESS,
             )
@@ -498,7 +526,8 @@ class HomePage(ctk.CTkFrame):
                 "Caixa Express",
                 (
                     "Caixa enviado com sucesso.\n\n"
-                    f"Protocolo: {protocol}"
+                    f"Protocolo: {protocol}\n\n"
+                    "Bom descanso!"
                 ),
                 parent=self,
             )
