@@ -17,6 +17,9 @@ import customtkinter as ctk
 
 from config.theme import ThemeColors
 from core.config_manager import ConfigManager
+from config.theme import ThemeColors
+from core.config_manager import ConfigManager
+from core.validators import Validators
 
 
 class SettingsPage(ctk.CTkFrame):
@@ -483,86 +486,87 @@ class SettingsPage(ctk.CTkFrame):
             self.tls_variable.set(False)
 
     def _validate_fields(self) -> bool:
-        """Valida os campos antes de salvar."""
+            """Valida os campos antes de salvar."""
 
-        store_name = (
-            self.store_entry.get().strip()
-        )
-
-        smtp_server = (
-            self.smtp_server_entry.get().strip()
-        )
-
-        sender_email = (
-            self.sender_entry.get().strip()
-        )
-
-        if not store_name:
-            self._show_error(
-                "Informe o nome da loja."
+            store_name = (
+                self.store_entry.get().strip()
             )
-            return False
 
-        if not smtp_server:
-            self._show_error(
-                "Informe o servidor SMTP."
+            smtp_server = (
+                self.smtp_server_entry.get().strip()
             )
-            return False
 
-        if not sender_email:
-            self._show_error(
-                "Informe o e-mail remetente."
+            sender_email = (
+                self.sender_entry.get().strip()
             )
-            return False
 
-        if (
-            "@" not in sender_email
-            or "." not in sender_email
-        ):
-            self._show_error(
-                "Informe um e-mail remetente válido."
-            )
-            return False
-
-        try:
-            port = int(
+            smtp_port = (
                 self.smtp_port_entry.get().strip()
             )
 
-            if not 1 <= port <= 65535:
-                raise ValueError
-
-        except ValueError:
-            self._show_error(
-                "Informe uma porta SMTP válida."
-            )
-            return False
-
-        try:
-            timeout = int(
+            timeout = (
                 self.timeout_entry.get().strip()
             )
 
-            if timeout <= 0:
-                raise ValueError
-
-        except ValueError:
-            self._show_error(
-                "Informe um timeout válido."
+            use_tls = (
+                self.tls_variable.get()
             )
-            return False
 
-        if (
-            self.tls_variable.get()
-            and self.ssl_variable.get()
-        ):
-            self._show_error(
-                "TLS e SSL não podem ficar "
-                "ativos simultaneamente."
+            use_ssl = (
+                self.ssl_variable.get()
             )
-            return False
 
-        return True
+            if not Validators.is_valid_store_name(
+                store_name
+            ):
+                self._show_error(
+                    "Informe o nome da loja."
+                )
+                return False
+
+            if not Validators.is_valid_smtp_server(
+                smtp_server
+            ):
+                self._show_error(
+                    "Informe o servidor SMTP."
+                )
+                return False
+
+            if not Validators.is_valid_email(
+                sender_email
+            ):
+                self._show_error(
+                    "Informe um e-mail remetente válido."
+                )
+                return False
+
+            if not Validators.is_valid_port(
+                smtp_port
+            ):
+                self._show_error(
+                    "Informe uma porta SMTP válida."
+                )
+                return False
+
+            if not Validators.is_valid_timeout(
+                timeout
+            ):
+                self._show_error(
+                    "Informe um timeout válido."
+                )
+                return False
+
+            if not Validators.is_valid_security_mode(
+                use_tls,
+                use_ssl,
+            ):
+                self._show_error(
+                    "TLS e SSL não podem ficar "
+                    "ativos simultaneamente."
+                )
+                return False
+
+            return True
 
     def _save_settings(self) -> None:
         """Salva as configurações no config.ini."""

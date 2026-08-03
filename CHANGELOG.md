@@ -186,3 +186,19 @@
 - Validado registro das tentativas com erro no histórico.
 - Validado registro dos detalhes técnicos das falhas nos logs.
 - Validada recuperação do sistema após restauração das configurações SMTP.
+
+## Sprint 06 - Etapa 01
+
+- Criada a classe Validators.
+- Centralizadas as validações reutilizáveis da aplicação.
+- Implementada validação de nome da loja.
+- Implementada validação de e-mail.
+- Implementada validação de servidor SMTP.
+- Implementada validação de porta.
+- Implementada validação de timeout.
+- Implementada validação do valor do caixa.
+- Implementada validação do modo de segurança TLS/SSL.
+- Implementada limpeza automática de destinatários inválidos e duplicados.
+- Integrado SettingsPage ao Validators.
+- Integrado EmailSender ao Validators.
+- Eliminadas validações duplicadas da aplicação.

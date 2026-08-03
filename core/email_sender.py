@@ -20,6 +20,7 @@ from core.config_manager import ConfigManager
 from core.html_builder import HTMLBuilder
 from core.logger_manager import LoggerManager
 from core.smtp_manager import SMTPManager
+from core.validators import Validators
 
 
 class EmailSender:
@@ -44,27 +45,33 @@ class EmailSender:
     ) -> tuple[bool, str]:
         """Prepara e envia o relatório de fechamento."""
 
-        clean_recipients = [
-            email.strip()
-            for email in recipients
-            if email.strip()
-        ]
+        clean_recipients = (
+            Validators.clean_recipients(
+                recipients
+            )
+        )
 
         if not clean_recipients:
             return (
                 False,
-                "Nenhum destinatário ativo foi encontrado.",
+                "Nenhum destinatário ativo "
+                "com e-mail válido foi encontrado.",
             )
 
-        if cash_value <= 0:
+        if not Validators.is_valid_cash_value(
+            cash_value
+        ):
             return (
                 False,
-                "O valor do caixa precisa ser maior que zero.",
+                "O valor do caixa precisa "
+                "ser maior que zero.",
             )
 
         store_name = store_name.strip()
 
-        if not store_name:
+        if not Validators.is_valid_store_name(
+            store_name
+        ):
             return (
                 False,
                 "A loja não está configurada.",
@@ -78,10 +85,13 @@ class EmailSender:
                 self._config_manager.sender_email
             )
 
-            if not sender:
+            if not Validators.is_valid_email(
+                sender
+            ):
                 return (
                     False,
-                    "O e-mail remetente não está configurado.",
+                    "O e-mail remetente não está "
+                    "configurado corretamente.",
                 )
 
             html_content = (
