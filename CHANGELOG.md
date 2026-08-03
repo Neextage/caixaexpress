@@ -202,3 +202,71 @@
 - Integrado SettingsPage ao Validators.
 - Integrado EmailSender ao Validators.
 - Eliminadas validações duplicadas da aplicação.
+## Sprint 06 - Etapa 02
+
+- Implementada tela administrativa "Sobre".
+- Adicionado acesso à tela Sobre pelo menu lateral.
+- Implementada exibição automática da versão da aplicação.
+- Adicionadas informações do desenvolvedor.
+- Adicionada listagem das tecnologias utilizadas.
+- Implementado botão para acesso ao repositório GitHub.
+- Integrada identidade visual do Caixa Express à tela Sobre.
+
+---
+
+## Sprint 06 - Etapa 03
+
+- Implementado cadastro completo de destinatários.
+- Implementada edição de destinatários existentes.
+- Implementada validação de e-mails duplicados.
+- Implementada validação de endereço de e-mail.
+- Implementada persistência das alterações no SQLite.
+- Implementada atualização automática da listagem após alterações.
+- Implementado diálogo administrativo para gerenciamento de destinatários.
+
+---
+
+## Sprint 06 - Etapa 04
+
+- Criado ícone oficial do Caixa Express.
+- Atualizada identidade visual do sistema.
+- Elaborada documentação técnica.
+- Elaborado Manual do Usuário.
+- Criado README completo do projeto.
+- Atualizado .gitignore.
+- Organizada estrutura final do projeto.
+- Preparado projeto para geração do executável.
+- Preparado projeto para Release v1.0.0.
+
+---
+
+# Release v1.0.0
+
+## Adicionado
+
+- Interface gráfica completa.
+- Login administrativo.
+- Configuração SMTP.
+- Histórico de envios.
+- Logs da aplicação.
+- Relatórios HTML.
+- CRUD completo de destinatários.
+- Tela Sobre.
+- Documentação Técnica.
+- Manual do Usuário.
+
+## Segurança
+
+- Validações centralizadas.
+- Proteção das configurações locais.
+- Senhas protegidas por hash.
+- Tratamento de exceções.
+
+## Melhorias
+
+- Interface redesenhada.
+- Organização modular do projeto.
+- Código documentado.
+- Estrutura preparada para futuras versões.
+
+Primeira versão estável do Caixa Express.
