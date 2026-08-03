@@ -370,6 +370,7 @@ class DatabaseManager:
         group_name: str,
         name: str,
         email: str,
+        active: bool,
     ) -> None:
         """Atualiza um destinatário."""
 
@@ -379,13 +380,15 @@ class DatabaseManager:
             SET
                 group_name = ?,
                 name = ?,
-                email = ?
+                email = ?,
+                active = ?
             WHERE id = ?
             """,
             (
                 group_name,
                 name,
                 email,
+                int(active),
                 recipient_id,
             ),
         )

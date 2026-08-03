@@ -19,7 +19,7 @@ import customtkinter as ctk
 
 from config.theme import ThemeColors
 from core.database import DatabaseManager
-
+from ui.dialogs.recipient_dialog import RecipientDialog
 
 class RecipientsPage(ctk.CTkFrame):
     """Página de gerenciamento dos destinatários."""
@@ -92,8 +92,33 @@ class RecipientsPage(ctk.CTkFrame):
             pady=(4, 0),
         )
 
-        refresh_button = ctk.CTkButton(
+        buttons_frame = ctk.CTkFrame(
             header,
+            fg_color="transparent",
+        )
+
+        buttons_frame.pack(
+            side="right",
+        )
+
+        new_button = ctk.CTkButton(
+            buttons_frame,
+            text="+ Novo",
+            width=110,
+            height=38,
+            corner_radius=8,
+            fg_color=ThemeColors.SUCCESS,
+            hover_color="#1F8A46",
+            command=self._new_recipient,
+        )
+
+        new_button.pack(
+            side="left",
+            padx=(0, 10),
+        )
+
+        refresh_button = ctk.CTkButton(
+            buttons_frame,
             text="Atualizar",
             width=110,
             height=38,
@@ -104,8 +129,7 @@ class RecipientsPage(ctk.CTkFrame):
         )
 
         refresh_button.pack(
-            side="right",
-            pady=5,
+            side="left",
         )
 
         self.summary_frame = ctk.CTkFrame(
@@ -279,6 +303,14 @@ class RecipientsPage(ctk.CTkFrame):
             fill="x",
             pady=4,
         )
+        card.bind(
+            "<Button-1>",
+            lambda e,
+            recipient=recipient:
+                self._edit_recipient(
+                    recipient
+                ),
+        )
 
         card.pack_propagate(
             False
@@ -307,6 +339,14 @@ class RecipientsPage(ctk.CTkFrame):
         name_label.pack(
             anchor="w",
         )
+        name_label.bind(
+            "<Button-1>",
+            lambda e,
+            recipient=recipient:
+                self._edit_recipient(
+                    recipient
+                ),
+        )
 
         email_label = ctk.CTkLabel(
             information,
@@ -318,6 +358,14 @@ class RecipientsPage(ctk.CTkFrame):
         email_label.pack(
             anchor="w",
             pady=(3, 0),
+        )
+        email_label.bind(
+            "<Button-1>",
+            lambda e,
+            recipient=recipient:
+                self._edit_recipient(
+                    recipient
+                ),
         )
 
         switch_variable = tk.BooleanVar(
@@ -430,6 +478,27 @@ class RecipientsPage(ctk.CTkFrame):
 
         self.inactive_label.configure(
             text=f"Inativos: {inactive_count}"
+        )
+    def _edit_recipient(
+        self,
+        recipient,
+    ) -> None:
+        """Abre a janela de edição."""
+
+        RecipientDialog(
+            master=self,
+            database=self._database,
+            recipient=recipient,
+            on_saved=self.refresh,
+        )
+    def _new_recipient(self) -> None:
+        """Abre a janela de cadastro."""
+
+        RecipientDialog(
+           master=self,
+           database=self._database,
+           recipient=None,
+           on_saved=self.refresh,
         )
 
     def _create_empty_state(self) -> None:
